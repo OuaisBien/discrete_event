@@ -1,4 +1,4 @@
-package cs2030.simulator;
+package project.simulator;
 
 import java.util.ArrayList;
 import java.util.Collections;
