@@ -1,4 +1,4 @@
-package cs2030.simulator;
+package project.simulator;
 
 public class Serve extends Event {
     private final Server server;
