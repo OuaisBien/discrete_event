@@ -60,7 +60,7 @@ The queue is modified.
 ## Implementation
 ### Specifying Everything Yourself
 <ul>
-  <li>For different event status classes in this project, the are mostly initialised with a <code>Customer</code> and a timestamp.
+  <li>For different event status classes in this project, they are mostly initialised with a <code>Customer</code> and a timestamp.
   </li>
   <li>Time will be represented by a three-decimal-place double starting from 0.000. It will also follow usual arithmetics.
   </li>
