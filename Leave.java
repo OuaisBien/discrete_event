@@ -1,4 +1,4 @@
-package cs2030.simulator;
+package project.simulator;
 
 public class Leave extends Event {
     public Leave(Customer c, double time) {
