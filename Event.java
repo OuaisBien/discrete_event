@@ -1,4 +1,4 @@
-package cs2030.simulator;
+package project.simulator;
 
 public abstract class Event implements Comparable<Event> {
     protected final Customer customer;
