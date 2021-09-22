@@ -24,7 +24,7 @@ In this project, we will model a multi-server system comprising the following:</
     <li> If the server is idle (not serving any customer), then the server starts serving the customer immediately (SERVE event).</li></br></br>
     <li>  If the server is serving another customer, then the customer that just arrived waits in the queue (WAIT event).</li></br></br>
     <li> If the server is serving one customer with a second customer waiting in the queue, and a third customer arrives, then this latter customer leaves (LEAVE event). In other words, there is at most one customer waiting in the queue. </li></ol></li></br></br>
-  <li> When the server is done serving a customer (DONE event), the server can start serving the customer waiting at the front of the queue (if any).</li>
+  <li> When the server is done serving a customer (DONE event), the server can start serving the customer waiting at the front of the queue (if any).</li></br></br>
   <li>. If there is no waiting customer, then the server becomes idle again.</li></br></br>
 </ol>
 </li>
@@ -45,20 +45,124 @@ possible event transitions:
 
 ### Priority Queuing
 <ul>
-<li>The PriorityQueue (a mutable class) can be used to keep a collection of elements, where
+  <li>The <code>PriorityQueue</code> (a mutable class) can be used to keep a collection of elements, where
 each element is given a certain priority.
-Elements may be added to the queue with the add(E e) method. The queue is modified;
-The poll() method may be used to retrieve and remove the element with the highest
-priority from the queue. It returns an object of type E, or null if the queue is empty.
+Elements may be added to the queue with the <code>add(E e)</code> method. The queue is modified;
+The <code>poll()</code> method may be used to retrieve and remove the element with the highest
+priority from the queue. It returns an object of type <code>E</code>, or null if the queue is empty.
 The queue is modified.
-To enable PriorityQueue to order events, instantiate a PriorityQueue object using the
-constructor that takes in a Comparator object. For more details, refer to the Java API
+    To enable <code>PriorityQueue</code> to order events, instantiate a <code>PriorityQueue</code> object using the
+    constructor that takes in a <code>Comparator</code> object. For more details, refer to the Java API
   <a href="https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html"> Specifications</a>.</li>
 </ul>
 </br></br>
 
 ## Implementation
+### Specifying Everything Yourself
 <ul>
-  <li>For different event status classes in this project, the are initialised with a `customer` and a timestamp
+  <li>For different event status classes in this project, the are initialised with a <code>Customer</code> and a timestamp
+  </li>
+  <li>Time will be represented by a three-decimal-place double starting from 0.000. It will also follow usual arithmetics.
+  </li>
+  <li>Each customers can have its own predetermined service time. It is one of the parameter of constructor of <code>Customer</code></li>
+  <li>There are two types of customers that come into the store, i.e. a general <code>Customer</code> and a <code>GreedyCustomer</code>.
+    A customer of type <code>GreedyCustomer</code> would always find the the available server, if any, with the shortest queue, which is how most customers would
+     behave in real life. In the case of a tie, s/he chooses the one of smaller index. On the other hand, a general <code>Customer</code> in our case would only find the available server, if any, of smallest index.
+  </li>
+  <li>Servers can opt to take a rest. Servers have a <code>double</code> list showing the duration of the rest after serving the nth customer. Note that 
+    the duration is decided when the service finishes, not when the customer arrives. This is important because sequence of arrival is not necessarily the           sequence of service termination.</li>
+  <li> In this project, we have several levels of implementation,ranging from naïve to shomewhat complicated, as follows:
+  </br>
+    <ul>
+      <li>Level 1: Given the number of servers and a set of customer arrival times in chronological order,
+output the discrete events. Also output the statistics at the end of the simulation.
+The driver class reads in a series of arrival times, creates the arrival events, and
+starts the simulation. Note that you should ensure your text input is correct</li></br></br>
+      <li>Level 2: Rather than a constant service time, each customer now has its own service time. In
+addition, each server now has a queue of customers to allow multiple customers to queue
+up. A customer that chooses to join a queue joins at the tail. When a server is done
+serving a customer, it serves the next waiting customer at the head of the queue.
+Hence, the queue should be a first-in-first-out (FIFO) structure. The driver class
+reads the number of servers, the maximum queue length, as well as arrival and service
+times of each customer.</li></br></br>
+      <li>Level 3 (<code>GreedyCustomer</code>): When a customer arrives, he or she first scans through the servers (in order,
+from 1 to k) to see if there is an idle server (i.e. not serving a customer). If there
+is one, the customer will go to the server to be served. Otherwise, a typical customer
+just chooses the first queue (while scanning from servers 1 to k) that is still not
+full to join. However, other than the typical customer, a greedy customer is introduced
+that always joins the queue with the fewest customers. In the case of a tie, the
+customer breaks the tie by choosing the first one while scanning from servers 1 to k.
+If a customer cannot find any queue to join, he/she will leave the shop. The driver
+class reads the number of servers and the maximum queue length. This is followed
+by N lines, each representing the arrival time and service times of the customer, as
+  well as whether the customer is greedy or otherwise. We will se <code>Scanner</code>'s <code>nextBoolean()</code> method
+to read this boolean value.</li></br></br>
+      <li>Level 4 (servers taking rest):The servers (assuming they are all human) are allowed to take occasional breaks. When a
+server finishes serving a customer, there is a chance that the server takes a rest for
+a certain amount of time. During the break, the server does not serve the next waiting
+customer. Upon returning from the break, the server serves the next customer in the
+queue (if any) immediately. The driver class first reads the number of servers, the
+maximum queue length and the number of customers N. This is followed by N lines, each
+representing the arrival time and service times of each customer. The next N lines
+depict a chronological sequence of resting times a server takes upon completion of each
+service (a value of 0 denotes no rest). Note that we do not pre-determine which rest
+time is accorded to which server at the beginning; it can only be decided during the
+actual simulation. That is to say, whenever a server rests, it will then know how much
+time it has to rest.</li></br></br>
+    </ul>
+  </ul>
+  
+### Randomising Everything (Level 5)
+<ul>
+  <li>Rather than reading arrival, service and resting times from input, we will generate
+them as random times instead. A pseudo-randomnumber generator can be initialized with a seed, such that the same seed always
+produces the same sequence of (seemingly random) numbers.
+<code>RandomGenerator</code> class that is provided for you that encapsulates different random
+number generators for use in our simulator. Each random number generator generates a
+different stream of random numbers.</br>
+The constructor for <code>RandomGenerator</code> takes in the following parameters:
+<ul>
+  <li><code>int</code> seed is the base seed</li>
+  <li><code>double</code> lambda is the arrival rate, λ</li>
+  <li><code>double</code> mu is the service rate, μ</li>
+  <li><code>double</code> rho is the server resting rate, ρ</li>
+  </ul>
+<li>The inter-arrival time is usually modelled as an exponential random variable,
+characterized by a single parameter λ denoting the arrival rate.
+The <code>genInterArrivalTime()</code> method of the class <code>RandomGenerator</code> is used for this purpose.
+Specifically, start the simulation by generating the first customer arrival event with
+timestamp 0 if there are still more customers to simulate, generate the next arrival
+event with a timestamp of T + now, where T is generated with te
+method <code>genInterArrivalTime()</code>.</li>
+<li>The service time is modelled as an exponential random variable, characterized by a
+single parameter, service rate μ. The method <code>genServiceTime()</code> from the
+class <code>RandomGenerator</code> can be used to generate the service time. Specifically, each time
+a customer is being served, a <code>DONE</code> event is generated and scheduled. The <code>DONE</code> event
+generated will have a timestamp of T + now, where T is generated with the
+method <code>genServiceTime()</code>.</li>
+<li>To decide if the server should rest, a random number uniformly drawn from [0, 1] is
+generated using the RandomGenerator method <code>genRandomRest()</code>. If the value returned is
+less than the probability of resting (Pr) then the server rests. Otherwise, the server
+does not rest but continues serving the next customer.</li>
+<li>As soon as the server rests, a random rest period Tr is generated using
+  the <code>RandomGenerator</code> method <code>genRestPeriod()</code>. This variable is an exponential random
+variable, governed by the resting rate, ρ.</li>
+<li>In addition, an arriving customer is a greedy customer with probability Pg. To decide
+whether a typical or greedy customer is created, a random number uniformly drawn
+from [0, 1] is generated with the <code>RandomGenerator</code> method <code>genCustomerType()</code>. If the
+value returned is less than Pg, a greedy customer is generated, otherwise, a typical
+customer is generated.</br>
+  The driver reads the following as input:
+  <ul>
+  <li>an <code>int</code> representing the number of servers</li>
+<li>an <code>int</code> for the maximum queue length, Qmax</li>
+<li>an <code>int</code> representing the number of customers to simulate</li>
+<li>an <code>int</code> denoting the base seed for the <code>RandomGenerator</code> object</li>
+<li>a positive <code>double</code> parameter for the arrival rate, λ</li>
+<li>a positive <code>double</code> parameter for the service rate, μ</li>
+<li>a positive <code>double</code> parameter for the resting rate, ρ</li>
+<li>a <code>double</code> parameter for the probability of resting, Pr</li>
+<li>a <code>double</code> parameter for the probability of a greedy customer occurring, Pg</li>
+  </ul>
   </li>
 </ul>
