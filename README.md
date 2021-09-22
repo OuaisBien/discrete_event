@@ -131,7 +131,7 @@ event with a timestamp of T + now, where T is generated with te
 method <code>genInterArrivalTime()</code>.</li>
 <li>The service time is modelled as an exponential random variable, characterized by a
 single parameter, service rate μ. The method <code>genServiceTime()</code> from the
-class <code>RandomGenerator</code> can be used to generate the service time. Specifically, each time
+class <code>RandomGenerator</code> can be used to generate the service time. This is only determined when a customer finishes waiting though, and hence <code>DoubleStream</code> is used to defer the determination of service length. Specifically, each time
 a customer is being served, a <code>DONE</code> event is generated and scheduled. The <code>DONE</code> event
 generated will have a timestamp of T + now, where T is generated with the
 method <code>genServiceTime()</code>.</li>
@@ -163,10 +163,10 @@ customer is generated.</br>
 </ul>
 </br></br>
 
-## Remark
+## Remarks
 <ul>
   <li>The MainX.java are driver classes for each corresponding level. The folder ~/project/simulator will contain most .class files.</li>
-  <li>Most things in this projects are <code>private</code> and <code>final</code> because this is a course project and there were certain rules to be strictly followed.</li>
+  <li>Most things in this projects are <code>private</code> and <code>final</code> because this was a course project and there were certain rules to be strictly followed.</li>
   <li>To use the test case and see its output, you need to compile all the files. Then in your terminal change to your file's directory. Say if you want to see output for Level1 using leveltest2.in as input, simply type </br>
     <code>java Main1&ltlevel1test2.in</code> and hit enter.</li> 
   </ul>
