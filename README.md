@@ -161,3 +161,8 @@ customer is generated.</br>
   </ul>
   </li>
 </ul>
+
+## Remark
+<ul>
+  <li>To use the test case and see its output, you need to compile all the file and except for the Main1, Main2. .... Then in your terminal change to your file's directory. Say if you want to see output for Level1 using leveltest2.in as in put, simply type <code>java Main1<level1test2.in</code> and hit enter.</li> 
+  </ul>
