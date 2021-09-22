@@ -60,17 +60,10 @@ The queue is modified.
 ## Implementation
 ### Specifying Everything Yourself
 <ul>
-  <li>For different event status classes in this project, the are initialised with a <code>Customer</code> and a timestamp
+  <li>For different event status classes in this project, the are mostly initialised with a <code>Customer</code> and a timestamp.
   </li>
   <li>Time will be represented by a three-decimal-place double starting from 0.000. It will also follow usual arithmetics.
   </li>
-  <li>Each customers can have its own predetermined service time. It is one of the parameter of constructor of <code>Customer</code></li>
-  <li>There are two types of customers that come into the store, i.e. a general <code>Customer</code> and a <code>GreedyCustomer</code>.
-    A customer of type <code>GreedyCustomer</code> would always find the the available server, if any, with the shortest queue, which is how most customers would
-     behave in real life. In the case of a tie, s/he chooses the one of smaller index. On the other hand, a general <code>Customer</code> in our case would only find the available server, if any, of smallest index.
-  </li>
-  <li>Servers can opt to take a rest. Servers have a <code>double</code> list showing the duration of the rest after serving the nth customer. Note that 
-    the duration is decided when the service finishes, not when the customer arrives. This is important because sequence of arrival is not necessarily the           sequence of service termination.</li>
   <li> In this project, we have several levels of implementation,ranging from naïve to shomewhat complicated, as follows:
   </br>
     <ul>
@@ -117,7 +110,7 @@ time it has to rest.</li></br></br>
   <li>Rather than reading arrival, service and resting times from input, we will generate
 them as random times instead. A pseudo-randomnumber generator can be initialized with a seed, such that the same seed always
 produces the same sequence of (seemingly random) numbers.
-<code>RandomGenerator</code> class that is provided for you that encapsulates different random
+<code>RandomGenerator</code> class encapsulates different random
 number generators for use in our simulator. Each random number generator generates a
 different stream of random numbers.</br>
 The constructor for <code>RandomGenerator</code> takes in the following parameters:
@@ -147,7 +140,7 @@ does not rest but continues serving the next customer.</li>
 <li>As soon as the server rests, a random rest period Tr is generated using
   the <code>RandomGenerator</code> method <code>genRestPeriod()</code>. This variable is an exponential random
 variable, governed by the resting rate, ρ.</li>
-<li>In addition, an arriving customer is a greedy customer with probability Pg. To decide
+<li>In addition, an arriving customer is a <code>GreedyCustomer</code> with probability Pg. To decide
 whether a typical or greedy customer is created, a random number uniformly drawn
 from [0, 1] is generated with the <code>RandomGenerator</code> method <code>genCustomerType()</code>. If the
 value returned is less than Pg, a greedy customer is generated, otherwise, a typical
