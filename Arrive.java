@@ -1,4 +1,4 @@
-package cs2030.simulator;
+package project.simulator;
 
 public class Arrive extends Event {
     public Arrive(Customer c, double time) {
