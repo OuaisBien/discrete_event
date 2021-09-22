@@ -16,14 +16,12 @@ public class EventProcessor {
     public void startEventProcessing() {
         while (queue.size() > 0) {
             Event currEvent = queue.poll();
-            if (currEvent.isServe() &&
-                (((Serve) currEvent).getServer().getCurrEvent().isDone() ||
-                ((Serve) currEvent).getServer().getCurrEvent().isServerDoneResting() ||
-                ((Serve) currEvent).getServer().getCurrEvent().isServerResting())) {
+            if (currEvent.isServe() && (((Serve) currEvent).getServer().getCurrEvent().isDone()
+                    || ((Serve) currEvent).getServer().getCurrEvent().isServerDoneResting()
+                    || ((Serve) currEvent).getServer().getCurrEvent().isServerResting())) {
                 ((Serve) currEvent).undoStatistics(meter);
-                Event nextEvent = new Serve(currEvent.getCustomer(),
-                    ((Serve) currEvent).getServer(),
-                    ((Serve) currEvent).getServer().getServiceFinishTime());
+                Event nextEvent = new Serve(currEvent.getCustomer(), ((Serve) currEvent).getServer(),
+                        ((Serve) currEvent).getServer().getServiceFinishTime());
                 queue.add(nextEvent);
                 nextEvent.updateStatistics(meter);
                 continue;
