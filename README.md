@@ -161,9 +161,12 @@ customer is generated.</br>
   </ul>
   </li>
 </ul>
+</br></br>
 
 ## Remark
 <ul>
-  <li>To use the test case and see its output, you need to compile all the file and except for the Main1, Main2. .... Then in your terminal change to your file's directory. Say if you want to see output for Level1 using leveltest2.in as in put, simply type </br>
+  <li>The MainX.java are driver classes for each corresponding level. The folder ~/project/simulator will contain most .class files.</li>
+  <li>Most things in this projects are <code>private</code> and <code>final</code> because this is a course project and there were certain rules to be strictly followed.</li>
+  <li>To use the test case and see its output, you need to compile all the files. Then in your terminal change to your file's directory. Say if you want to see output for Level1 using leveltest2.in as input, simply type </br>
     <code>java Main1&ltlevel1test2.in</code> and hit enter.</li> 
   </ul>
