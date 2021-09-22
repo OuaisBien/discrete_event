@@ -64,7 +64,9 @@ The queue is modified.
   </li>
   <li>Time will be represented by a three-decimal-place double starting from 0.000. It will also follow usual arithmetics.
   </li>
-  <li> In this project, we have several levels of implementation,ranging from naïve to shomewhat complicated, as follows:
+  <li>For every level, a tally of customers served and average of customer's waiting length will be calculated and dislplayed after the simulation.
+  </li>
+  <li> In this project, we have several levels of implementation, ranging from naïve to shomewhat complicated, as follows:
   </br>
     <ul>
       <li>Level 1: Given the number of servers and a set of customer arrival times in chronological order,
