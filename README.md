@@ -22,10 +22,10 @@ In this project, we will model a multi-server system comprising the following:</
    <li>When a customer arrives (ARRIVE event):</br></br>
    <ol>
     <li> If the server is idle (not serving any customer), then the server starts serving the customer immediately (SERVE event).</li></br></br>
-    <li>  If the server is serving another customer, then the customer that just arrived waits in the queue (WAIT event).</li></br></br>
+    <li> If the server is serving another customer, then the customer that just arrived waits in the queue (WAIT event).</li></br></br>
     <li> If the server is serving one customer with a second customer waiting in the queue, and a third customer arrives, then this latter customer leaves (LEAVE event). In other words, there is at most one customer waiting in the queue. </li></ol></li></br></br>
   <li> When the server is done serving a customer (DONE event), the server can start serving the customer waiting at the front of the queue (if any).</li></br></br>
-  <li>. If there is no waiting customer, then the server becomes idle again.</li></br></br>
+  <li> If there is no waiting customer, then the server becomes idle again.</li></br></br>
 </ol>
 </li>
 <li> Notice from the above description that there are five events in the system,
