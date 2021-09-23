@@ -53,7 +53,7 @@ priority from the queue. It returns an object of type <code>E</code>, or null if
 The queue is modified.
     To enable <code>PriorityQueue</code> to order events, instantiate a <code>PriorityQueue</code> object using the
     constructor that takes in a <code>Comparator</code> object. For more details, refer to the Java API
-  <a href="https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html" target="_blank" rel="noopener noreferrer"> Specifications</a>.</li>
+  <a href="https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html" target="_blank"> Specifications</a>.</li>
 </ul>
 </br></br>
 
